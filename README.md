@@ -121,9 +121,13 @@ A simple API to provide data for products for a single store.
 
 The API uses JWT (JSON Web Tokens) for authentication. To access protected routes, include the `Authorization` header with the token in your requests.
 
+## Modeling
+The API modelingis available at [modeling](/about/1-Modeling/modeling.md).
+
+
 ## Documentation
 
-The API documentation is available at [DOCUMENTATION](docs/README.md).
+The API documentation is available at [DOCUMENTATION](/about/DOCUMENTATION/Readme.md).
 
 ## Contributing
 
