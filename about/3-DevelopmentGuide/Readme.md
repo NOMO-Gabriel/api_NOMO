@@ -24,7 +24,11 @@ This document outlines the steps and commits necessary to develop the API for ma
 ### Commit 4: Initialize Symfony Project
 - Create a new Symfony project:
   ```bash
-  composer create-project symfony/skeleton api_NOMO
+  composer create-project symfony/skeleton api
+- Install Web dependencies
+    ```bash
+        cd api
+        composer require webapp
 ### Commit 5: Configure Environment
 
     Copy .env.example to .env and configure environment variables (database, API keys, etc.).
@@ -83,7 +87,7 @@ This document outlines the steps and commits necessary to develop the API for ma
     Write PHPUnit tests for services and controllers.
 ### Commit 14: Conduct Functional Testing
 
-    Test API endpoints using tools like Postman or Swagger.
+    Test API endpoints using tools like Postman, insomnia or Swagger.
 ### Commit 15: Fix Bugs
 
     Identify and resolve issues found during testing.

@@ -127,7 +127,7 @@ The development of the API for managing products (`API_NOMO`) is ongoing. Please
 The API uses JWT (JSON Web Tokens) for authentication. To access protected routes, include the `Authorization` header with the token in your requests.
 
 ## Modeling
-The API modelingis available at [modeling](/about/1-Modeling/modeling.md).
+The API modeling is available at [modeling](/about/1-Modeling/modeling.md).
 
 
 ## Documentation
