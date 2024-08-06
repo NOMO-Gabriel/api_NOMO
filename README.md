@@ -69,7 +69,26 @@ The development of the API for managing products (`API_NOMO`) is ongoing. Please
 
 4. **Configure your environment:**
 
-    Rename `.env.example` to `.env` and update database credentials and other configuration settings.
+Rename `.env.example` to `.env` and update the database credentials and other configuration settings. Make sure that your database is properly configured. By default, PostgreSQL is configured. Comment out this line:
+
+      ```dotenv
+      # DATABASE_URL="postgresql://app:!ChangeMe!@127.0.0.1:5432/app?serverVersion=16&charset=utf8"
+
+  
+and uncomment the line related to your database. Configure the password, username, and database name, and make sure you specify the correct version of your database server. For example:
+
+- Database: MariaDB
+- Name: myDatabaseName
+- Username: me
+- Password: mypassword
+- Server version: 10.4.28
+
+Here is an example configuration:
+
+ DATABASE_URL="mysql://me:mypassword@127.0.0.1:3306/myDatabaseName?serverVersion=10.4.28-MariaDB&charset=utf8mb4"
+
+
+
 
 5. **Create the database:**
 
