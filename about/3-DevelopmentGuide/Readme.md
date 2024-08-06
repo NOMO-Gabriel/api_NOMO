@@ -57,6 +57,7 @@ This document outlines the steps and commits necessary to develop the API for ma
         bash
 
     php bin/console doctrine:database:create
+    php bin/console make:migration
     php bin/console doctrine:migrations:migrate
 
 # 4. Develop Features
