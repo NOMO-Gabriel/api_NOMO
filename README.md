@@ -2,6 +2,11 @@
 
 A simple API to provide data for products for a single store.
 
+## Project Status
+
+The development of the API for managing products (`API_NOMO`) is ongoing. Please start by reading this `README` for an overview of the project and its objectives. For a detailed list of development steps and associated commits, refer to the [Development Steps](/about/3-DevelopmentGuide/Readme.md). This guide provides a comprehensive outline of the development process, including feature implementation and testing.
+
+
 ## Overview
 
 `api_NOMO` is a RESTful API built with Symfony that allows for managing products in a single store. It supports operations for handling products, categories, users, and images. 
