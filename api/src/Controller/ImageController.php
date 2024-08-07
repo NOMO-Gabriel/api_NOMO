@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -20,6 +21,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 #[Groups(['image.index','image.show'])]
 class ImageController extends AbstractController
 {
+    #[IsGranted("ROLE_USER")]
     #[Route('/api/images', methods: ['GET'])]
     public function index(ImageRepository $repository): JsonResponse
     {
@@ -28,6 +30,8 @@ class ImageController extends AbstractController
             'groups' => ['image.index']
         ]);
     }
+
+    #[IsGranted("ROLE_USER")]
     #[Route('/api/image/{id}' , methods: ['GET'])]
     public function show(ImageRepository $repository, int $id): Response
     {
@@ -36,14 +40,8 @@ class ImageController extends AbstractController
             'groups' => ['image.index']
         ]);
     }
-    #[Route('/api/image/{id}/delete' , methods: ['DELETE'])]
-    public function delete(EntityManagerInterface $entityManager, int $id):JsonResponse
-    {
-        $image = $entityManager->getRepository(Image::class)->find($id);
-        $entityManager->remove($image);
-        $entityManager->flush();
-        return new JsonResponse(null,Response::HTTP_NO_CONTENT);
-    }
+
+    #[IsGranted("ROLE_EDIT")]
     #[Route('/api/image/product/{productId}/create' , methods: ['POST'])]
     public function create(Request $request, EntityManagerInterface $entityManager, SerializerInterface $serializer, int $productId):JsonResponse
     {
@@ -61,6 +59,8 @@ class ImageController extends AbstractController
         $entityManager->flush();
         return $this->json($image,Response::HTTP_CREATED, [],['groups'=> ['image.create']]);
     }
+
+    #[IsGranted("ROLE_EDIT")]
     #[Route('/api/image/{id}/update' , methods: ['PATCH'])]
     public function update(Request $request, EntityManagerInterface $entityManager, SerializerInterface $serializer, int $id):JsonResponse
     {
@@ -84,5 +84,15 @@ class ImageController extends AbstractController
         $entityManager->persist($image);
         $entityManager->flush();
         return $this->json($image,Response::HTTP_OK,[],['groups'=>['image.create']]);
+    }
+
+    #[IsGranted("ROLE_EDIT")]
+    #[Route('/api/image/{id}/delete' , methods: ['DELETE'])]
+    public function delete(EntityManagerInterface $entityManager, int $id):JsonResponse
+    {
+        $image = $entityManager->getRepository(Image::class)->find($id);
+        $entityManager->remove($image);
+        $entityManager->flush();
+        return new JsonResponse(null,Response::HTTP_NO_CONTENT);
     }
 }

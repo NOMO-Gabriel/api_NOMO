@@ -15,7 +15,6 @@ This document outlines the steps and commits necessary to develop the API for ma
 - Define priorities and required resources.
 
 ## 2. Setup Development Environment
-
 ### Commit 3: Install Required Tools
 - PHP 8.1 or higher
 - Composer

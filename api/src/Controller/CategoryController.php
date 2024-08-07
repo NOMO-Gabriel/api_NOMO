@@ -11,11 +11,14 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class CategoryController extends AbstractController
 {
+
+    #[IsGranted("ROLE_USER")]
     #[Route('/api/categories', methods: [ 'GET' ])]
     public function index(CategoryRepository $repository): JsonResponse
     {
@@ -24,6 +27,8 @@ class CategoryController extends AbstractController
             'groups' => ['category.index']
         ]);
     }
+
+    #[IsGranted("ROLE_USER")]
     #[Route('/api/category/{id}', methods: [ 'GET' ])]
     public function show(CategoryRepository $repository,int $id): JsonResponse
     {
@@ -32,6 +37,8 @@ class CategoryController extends AbstractController
             'groups' => ['category.show']
         ]);
     }
+
+    #[IsGranted("ROLE_GRANT_EDIT")]
     #[Route('/api/category/create' , methods: ['POST'])]
     public function create(EntityManagerInterface $entityManager, SerializerInterface $serializer,Request $request):JsonResponse
     {
@@ -47,6 +54,8 @@ class CategoryController extends AbstractController
                 'groups'=>['category.create']
             ]);
     }
+
+    #[IsGranted("ROLE_GRANT_EDIT")]
     #[Route('/api/category/{id}/update' , methods: ['PATCH'])]
     public function update(EntityManagerInterface $entityManager, SerializerInterface $serializer,Request $request, int $id):JsonResponse
     {
@@ -65,6 +74,7 @@ class CategoryController extends AbstractController
         ]);
     }
 
+    #[IsGranted("ROLE_GRANT_EDIT")]
     #[Route('/api/category/{id}/delete' , methods: ['DELETE'])]
     public function delete(EntityManagerInterface $entityManager, int $id):JsonResponse
     {
