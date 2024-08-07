@@ -26,6 +26,9 @@ class ImageController extends AbstractController
     public function index(ImageRepository $repository): JsonResponse
     {
         $images = $repository->findAll();
+        if (! $images ){
+            return new JsonResponse("image not found in database",Response::HTTP_FOUND);
+        }
         return $this->json($images,Response::HTTP_OK,[],[
             'groups' => ['image.index']
         ]);
@@ -35,8 +38,11 @@ class ImageController extends AbstractController
     #[Route('/api/image/{id}' , methods: ['GET'])]
     public function show(ImageRepository $repository, int $id): Response
     {
-        $users = $repository->find($id);
-        return $this->json($users,Response::HTTP_OK,[],[
+        $image = $repository->find($id);
+        if (! $image ){
+            return new JsonResponse(" image not found",Response::HTTP_FOUND);
+        }
+        return $this->json($image,Response::HTTP_OK,[],[
             'groups' => ['image.index']
         ]);
     }
@@ -47,7 +53,7 @@ class ImageController extends AbstractController
     {
         $product = $entityManager->getRepository(Product::class)->find($productId);
         if (!$product){
-            return new JsonResponse(null,Response::HTTP_FOUND);
+            return new JsonResponse("product not found",Response::HTTP_FOUND);
         }
         $image = new Image();
         $image = $serializer->deserialize($request->getContent(),Image::class,'json',[
@@ -66,7 +72,9 @@ class ImageController extends AbstractController
     {
         $image = $entityManager->getRepository(Image::class)->find($id);
         if (!$image){
-            return new JsonResponse(null,Response::HTTP_FOUND);
+            if (!$image){
+                return new JsonResponse("image not found",Response::HTTP_FOUND);
+            }
         }
 
         $image = $serializer->deserialize($request->getContent(),Image::class,'json',[
@@ -78,9 +86,10 @@ class ImageController extends AbstractController
         $arrayData = json_decode($request->getContent(),true);
         $productId = $arrayData['product']['id'];
         $product = $entityManager->getRepository(Product::class)->find($productId);
-        if($product){
-            $image->setProduct($product);
-        }
+        if(!$product){
+                return new JsonResponse("product not found",Response::HTTP_FOUND);
+            }
+        $image->setProduct($product);
         $entityManager->persist($image);
         $entityManager->flush();
         return $this->json($image,Response::HTTP_OK,[],['groups'=>['image.create']]);
@@ -91,6 +100,10 @@ class ImageController extends AbstractController
     public function delete(EntityManagerInterface $entityManager, int $id):JsonResponse
     {
         $image = $entityManager->getRepository(Image::class)->find($id);
+        if(!$image){
+
+            return new JsonResponse("image not found",Response::HTTP_FOUND);
+        }
         $entityManager->remove($image);
         $entityManager->flush();
         return new JsonResponse(null,Response::HTTP_NO_CONTENT);

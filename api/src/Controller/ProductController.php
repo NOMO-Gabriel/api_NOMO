@@ -25,6 +25,9 @@ class ProductController extends AbstractController
     public function index(ProductRepository $repository): JsonResponse
     {
         $products = $repository->findAll();
+        if(! $products){
+            return  new JsonResponse('product not found in database', Response::HTTP_FOUND);
+        }
         return $this->json($products,Response::HTTP_OK,[],[
           'groups' => ['product.index']
         ]);
@@ -35,6 +38,9 @@ class ProductController extends AbstractController
     public function show(ProductRepository $repository,int $id): JsonResponse
     {
         $product = $repository->find($id);
+        if(! $product){
+            return  new JsonResponse('product not found ', Response::HTTP_FOUND);
+        }
         return $this->json($product,Response::HTTP_OK,[],[
             'groups' => ['product.show']
         ]);
@@ -44,7 +50,14 @@ class ProductController extends AbstractController
     #[Route('/api/products/category/{categoryId}', methods: [ 'GET' ])]
     public function category(CategoryRepository $repository,int $categoryId): JsonResponse
     {
-        $products = $repository->find($categoryId)->getProducts();
+        $category =$repository->find($categoryId);
+        if(! $category){
+            return  new JsonResponse('category not found ', Response::HTTP_FOUND);
+        }
+        $products = $category->getProducts();
+        if(! $products){
+            return  new JsonResponse('product not found in this category', Response::HTTP_FOUND);
+        }
         return $this->json($products,Response::HTTP_OK,[],[
             'groups' => ['product.category']
         ]);
@@ -64,11 +77,20 @@ class ProductController extends AbstractController
        );
        $dataArray = json_decode($request->getContent(), true);
        $categoryId = $dataArray['category']['id'];
-       $category = $entityManager->getRepository(Category::class)->find($categoryId);
-       $product->setCategory($category);
+        if(! $categoryId){
 
+            return  new JsonResponse('please insert categoryId in your request inside category object', Response::HTTP_FOUND);
+        }
+       $category = $entityManager->getRepository(Category::class)->find($categoryId);
+        if(! $category){
+            return  new JsonResponse('category not found ', Response::HTTP_FOUND);
+        }
+       $product->setCategory($category);
        $image = new Image();
        $imageUrl = $dataArray['mainImage']['url'];
+        if(! $imageUrl){
+            return  new JsonResponse('please insert imageUrl into your request inside mainImage object', Response::HTTP_FOUND);
+        }
        $imageDescription = $dataArray['mainImage']['description'];
        $image->setUrl($imageUrl);
         if($imageDescription){
@@ -90,6 +112,9 @@ class ProductController extends AbstractController
     public function update(Request $request, EntityManagerInterface $entityManager, int $id, SerializerInterface $serializer):JsonResponse
     {
         $product = $entityManager->getRepository(Product::class)->find($id);
+        if(! $product){
+            return  new JsonResponse('product not found ', Response::HTTP_FOUND);
+        }
         $product = $serializer->deserialize($request->getContent(),Product::class,'json',
         [
             AbstractNormalizer::OBJECT_TO_POPULATE => $product,
@@ -98,17 +123,26 @@ class ProductController extends AbstractController
         ]);
         $dataArray = json_decode($request->getContent(), true);
         $categoryId = $dataArray['category']['id'];
-        $category = $entityManager->getRepository(Category::class)->find($categoryId);
-        $product->setCategory($category);
-        $imageUrl = $dataArray['mainImage']['url'];
-        if (isset($imageUrl)){
-            $image = new Image();
-            $imageDescription = $dataArray['mainImage']['description'];
-            $image->setUrl($imageUrl);
-            $image->setDescription($imageDescription);
-            $entityManager->persist($image);
-            $product->setMainImage($image);
+        if(! $categoryId){
+
+            return  new JsonResponse('please insert categoryId in your request inside category object', Response::HTTP_FOUND);
         }
+        $category = $entityManager->getRepository(Category::class)->find($categoryId);
+        if(! $category){
+            return  new JsonResponse('category not found ', Response::HTTP_FOUND);
+        }
+        $product->setCategory($category);
+        $image = new Image();
+        $imageUrl = $dataArray['mainImage']['url'];
+        if(! $imageUrl){
+            return  new JsonResponse('please insert imageUrl into your request inside mainImage object', Response::HTTP_FOUND);
+        }
+        $imageDescription = $dataArray['mainImage']['description'];
+        $image->setUrl($imageUrl);
+        if($imageDescription){
+            $image->setDescription($imageDescription);
+        }
+        $product->setMainImage($image);
         $entityManager->flush();
         return $this->json($product,Response::HTTP_OK,[],[
             'groups' => 'product.create'

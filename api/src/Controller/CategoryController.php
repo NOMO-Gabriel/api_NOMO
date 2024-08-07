@@ -23,6 +23,9 @@ class CategoryController extends AbstractController
     public function index(CategoryRepository $repository): JsonResponse
     {
         $categories = $repository->findAll();
+        if (! $categories){
+            return new JsonResponse("category not found in database",Response::HTTP_FOUND);
+        }
         return $this->json($categories,Response::HTTP_OK,[],[
             'groups' => ['category.index']
         ]);
@@ -33,6 +36,9 @@ class CategoryController extends AbstractController
     public function show(CategoryRepository $repository,int $id): JsonResponse
     {
         $category = $repository->find($id);
+        if (! $category){
+            return new JsonResponse("category not found in database",Response::HTTP_FOUND);
+        }
         return $this->json($category,Response::HTTP_OK,[],[
             'groups' => ['category.show']
         ]);
@@ -79,10 +85,12 @@ class CategoryController extends AbstractController
     public function delete(EntityManagerInterface $entityManager, int $id):JsonResponse
     {
         $category = $entityManager->getRepository(Category::class)->find($id);
+        if(! $category){
+            return  new JsonResponse('category not found', Response::HTTP_FOUND);
+        }
         $entityManager->remove($category);
         $entityManager->flush();
         return new JsonResponse(null,Response::HTTP_NO_CONTENT);
     }
-
-
+    
     }
