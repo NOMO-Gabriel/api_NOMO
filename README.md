@@ -101,8 +101,17 @@ Here is an example configuration:
     ```bash
     php bin/console doctrine:migrations:migrate
     ```
+7. fiell database with fixtures:
 
-7. **Start the Symfony server:**
+        php bin/console doctrine:fixtures:load 
+this command will delete all data in database and generate new data.
+
+If you need only to add data, make:
+
+        php bin/console doctrine:fixtures:load --append
+
+
+8. **Start the Symfony server:**
 
     ```bash
     symfony server:start
@@ -120,7 +129,7 @@ Here is an example configuration:
 - `GET /product/{id}` : View a single product
 - `GET /products/category/{categoryId}` : List products by category
 - `POST /product` : Create a new product
-- `PUT /product/{id}` : Update a product
+- `PATCH /product/{id}` : Update a product
 - `DELETE /product/{id}` : Delete a product
 
 ### Categories
@@ -128,7 +137,7 @@ Here is an example configuration:
 - `GET /categories` : List all categories
 - `GET /category/{id}` : View a single category
 - `POST /category` : Create a new category
-- `PUT /category/{id}` : Update a category
+- `PATCH /category/{id}` : Update a category
 - `DELETE /category/{id}` : Delete a category
 
 ### Users
@@ -137,8 +146,8 @@ Here is an example configuration:
 - `GET /user/{id}` : View a single user
 - `POST /register` : Register a new user
 - `POST /login` : Authenticate a user
-- `PUT /editUser/{id}` : Update user information
-- `PUT /editRole/{id}` : Update user roles
+- `PATCH /user/{id}` : Update user information
+- `PATCH /roles/{userId}/role-{roleItem}` : Update user roles
 - `DELETE /user/{id}` : Delete a user
 
 ## Authentication

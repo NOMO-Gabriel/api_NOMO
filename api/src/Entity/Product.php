@@ -7,32 +7,42 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
+
+#[Groups(['product.index','product.show'])]
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['product.category','product.create','image.create'])]
     private ?int $id = null;
 
+    #[Groups(['product.category','product.create','image.create'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+
+    #[Groups(['product.create','product.category'])]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
-
+    #[Groups(['product.category','product.create'])]
     #[ORM\Column]
     private ?float $price = null;
 
+    #[Groups(['product.category','product.create','product.category'])]
     #[ORM\Column]
     private ?int $quantity = null;
 
     #[ORM\Column]
+    #[Groups(['product.category','product.create','product.category'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'products')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['product.create'])]
     private ?Category $category = null;
 
     /**
@@ -43,6 +53,7 @@ class Product
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['product.category'])]
     private ?Image $mainImage = null;
 
     public function __construct()
@@ -153,7 +164,6 @@ class Product
                 $image->setProduct(null);
             }
         }
-
         return $this;
     }
 

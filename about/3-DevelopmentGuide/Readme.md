@@ -71,6 +71,7 @@ This document outlines the steps and commits necessary to develop the API for ma
     php bin/console make:controller ProductController
     php bin/console make:controller CategoryController
     php bin/console make:controller UserController
+    php bin/console make:controller ImageController
 ### Commit 10: Define Routes
 
     Define routes for each feature in routing configuration or controller annotations.

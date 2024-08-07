@@ -4,18 +4,24 @@ namespace App\Entity;
 
 use App\Repository\ImageRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
+#[Groups(['image.index','image.show', 'image.create'])]
 class Image
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['product.create','product.show'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['product.create','product.show'])]
     private ?string $url = null;
 
+    #[Groups(['product.create','image.create','product.show'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
 

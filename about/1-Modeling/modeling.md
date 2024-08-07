@@ -119,3 +119,10 @@ You can find our API documentation in the directory: [DOCUMENTATION](/ABOUT_PROJ
 - `PUT /editUser/{id}` : Update user information
 - `PUT /editRole/{id}` : Update user roles
 - `DELETE /user/{id}` : Delete a user
+
+## Images
+- `GET /images` : view all images
+- `GET /image/{id}`: view a specific image
+- `PUT /image/{id}`: update an image url for a products
+- `POST /image/product/{productId}`: add an image for a specific product
+- `DELETE /image/{productId}` : delete an image for  product
