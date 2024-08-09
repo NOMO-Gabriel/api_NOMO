@@ -4,8 +4,8 @@ nelmio_api_doc:
             - url: http://localhost:8000
               description: API over HTTP
         info:
-            title: doc
-            description: This is an awesome app!
+            title: documentation of API
+            description: Product Management for a single store!
             version: 1.0.0
             x-build: #CommitHash
         components:
