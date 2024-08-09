@@ -24,7 +24,7 @@ To have more information about modeling of the project, see my [modeling](/about
 
 - **User Management**
   - User registration, login, and profile management
-  - Access roles: USER, EDITOR, ADMIN
+  - Access roles: USER, EDIT,GRANT_EDIT, ADMIN and SUPER_ADMIN
 
 - **Image Management**
   - Upload and associate images with products
@@ -88,7 +88,7 @@ and uncomment the line related to your database. Configure the password, usernam
 
 Here is an example configuration:
 
- DATABASE_URL="mysql://me:mypassword@127.0.0.1:3306/myDatabaseName?serverVersion=10.4.28-MariaDB&charset=utf8mb4"
+     DATABASE_URL="mysql://me:mypassword@127.0.0.1:3306/myDatabaseName?serverVersion=10.4.28-MariaDB&charset=utf8mb4"
 
 
 

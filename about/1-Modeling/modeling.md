@@ -95,7 +95,7 @@
 ## 5. API Documentation
 
 ### Swagger
-You can find our API documentation in the directory: [DOCUMENTATION](/ABOUT_PROJECT/DOCUMENTATION/) to facilitate testing and understanding of available endpoints.
+You can find our API documentation in the directory: [DOCUMENTATION](/about/DOCUMENTATION/Readme.md) to facilitate testing and understanding of available endpoints.
 or on the EndPoint /api/doc after executing Project. For more information to execute project, see [The Readme](/README.md)
 
 ### API END-POINTS
