@@ -56,7 +56,6 @@ class ProductController extends AbstractController
     /*
      *  Show a product by its ID
      * */
-    #[IsGranted("ROLE_USER")]
     #[Route('/api/product/{id}', methods: ['GET'])]
     #[OA\Get(
         path: '/api/product/{id}',
@@ -99,7 +98,6 @@ class ProductController extends AbstractController
     /*
      *  List products by category
      * */
-    #[IsGranted("ROLE_USER")]
     #[Route('/api/products/category/{categoryId}', methods: ['GET'])]
     #[OA\Get(
         path: '/api/products/category/{categoryId}',

@@ -66,7 +66,7 @@ class UserController extends AbstractController
     /*
      *  List all users
      * */
-    #[IsGranted("ROLE_USER")]
+    #[IsGranted("ROLE_ADMIN")]
     #[Route('/api/users', methods: ['GET'])]
     #[OA\Get(
         path: '/api/users',
@@ -98,7 +98,7 @@ class UserController extends AbstractController
     /*
      *  Present a user by id
      * */
-    #[IsGranted("ROLE_USER")]
+    #[IsGranted("ROLE_ADMIN")]
     #[Route('/api/user/{id}', methods: ['GET'])]
     #[OA\Get(
         path: '/api/user/{id}',
@@ -134,14 +134,14 @@ class UserController extends AbstractController
     }
 
     /*
-     *  Update an existing user
+     *  Update an existing user limited by role ADMIN
      * */
     #[IsGranted("ROLE_ADMIN")]
     #[Route('/api/user/{id}/update', methods: ['PATCH'])]
     #[OA\Patch(
         path: '/api/user/{id}/update',
-        description: 'Update an existing user.',
-        summary: 'Update a user',
+        description: 'Update an existing user limited by role ADMIN.',
+        summary: 'Update a simple user ',
         requestBody: new OA\RequestBody(
             description: 'Updated user data',
             content: new OA\JsonContent(ref: new Model(type: User::class, groups: ['user.update']))
@@ -177,8 +177,62 @@ class UserController extends AbstractController
         if (!$user) {
             return new JsonResponse("user not found", Response::HTTP_NOT_FOUND);
         }
-        if (in_array('ROLE_ADMIN', $user->getRoles())) {
+        if (in_array('ROLE_ADMIN', $user->getRoles())&&(!in_array('ROLE_SUPER_ADMIN',$user->getRoles()))) {
             return new JsonResponse("admin can't edit another admin", Response::HTTP_FORBIDDEN);
+        }
+        $user = $serializer->deserialize($request->getContent(), User::class, 'json', [
+            AbstractNormalizer::OBJECT_TO_POPULATE => $user,
+            AbstractNormalizer::IGNORED_ATTRIBUTES => ['id', 'password'],
+            'groups' => ['user.update']
+        ]);
+        $dataArray = json_decode($request->getContent(), true);
+        $password = $passwordHasher->hashPassword($user, $dataArray["password"]);
+        if ($password) {
+            $user->setPassword($password);
+        }
+        $entityManager->flush();
+        return $this->json($user, Response::HTTP_OK, [], ['groups' => 'user.update']);
+    }
+    /*
+     *  Update an existing user or admin
+     * */
+    #[IsGranted("ROLE_SUPER_ADMIN")]
+    #[Route('/api/admin/{id}/update', methods: ['PATCH'])]
+    #[OA\Patch(
+        path: '/api/admin/{id}/update',
+        description: 'Update an existing user.',
+        summary: 'Update a user or admin',
+        requestBody: new OA\RequestBody(
+            description: 'Updated user data',
+            content: new OA\JsonContent(ref: new Model(type: User::class, groups: ['user.update']))
+        ),
+        parameters: [
+            new OA\Parameter(
+                name: 'id',
+                description: 'Id of the user to update',
+                in: 'path',
+                required: true,
+                schema: new OA\Schema(type: 'integer'),
+            )
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'User updated successfully',
+                content: new OA\JsonContent(ref: new Model(type: User::class, groups: ['user.update']))
+            ),
+            new OA\Response(
+                response: 404,
+                description: 'User not found'
+            ),
+
+        ]
+    )]
+    public function adminUpdate(Request $request, int $id, SerializerInterface $serializer, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): JsonResponse
+    {
+        $user = $entityManager->getRepository(User::class)->find($id);
+        if (!$user) {
+            return new JsonResponse("user not found", Response::HTTP_NOT_FOUND);
         }
         $user = $serializer->deserialize($request->getContent(), User::class, 'json', [
             AbstractNormalizer::OBJECT_TO_POPULATE => $user,
@@ -195,14 +249,14 @@ class UserController extends AbstractController
     }
 
     /*
-     *  Update a user role
+     *  Update a simple user role
      * */
     #[IsGranted("ROLE_ADMIN")]
     #[Route('/api/setRole/user-{userId}/role-{roleItem}/update', methods: ['PATCH'])]
     #[OA\Patch(
         path: '/api/setRole/user-{userId}/role-{roleItem}/update',
-        description: 'Update a user role.',
-        summary: 'Update user role',
+        description: 'Update a simple user role.',
+        summary: 'Update simple user role',
         parameters: [
             new OA\Parameter(
                 name: 'userId',
@@ -241,7 +295,7 @@ class UserController extends AbstractController
         if (!$user) {
             return new JsonResponse("user not found", Response::HTTP_NOT_FOUND);
         }
-        if (in_array('ROLE_ADMIN', $user->getRoles())) {
+        if (in_array('ROLE_ADMIN', $user->getRoles())&&(!in_array('ROLE_SUPER_ADMIN',$user->getRoles()))) {
             return new JsonResponse("admin can't edit another admin", Response::HTTP_FORBIDDEN);
         }
         switch ($roleItem) {
@@ -263,14 +317,80 @@ class UserController extends AbstractController
         $entityManager->flush();
         return $this->json($user, Response::HTTP_OK, [], ['groups' => 'user.index']);
     }
+    /*
+     *  Update a user or an admin role
+     * */
+    #[IsGranted("ROLE_SUPER_ADMIN")]
+    #[Route('/api/setRole/admin-{adminId}/role-{roleItem}/update', methods: ['PATCH'])]
+    #[OA\Patch(
+        path: '/api/setRole/admin-{adminId}/role-{roleItem}/update',
+        description: 'Update a  user or an admin role.',
+        summary: 'Update a user or an admin role',
+        parameters: [
+            new OA\Parameter(
+                name: 'adminId',
+                description: 'Id of the user to update',
+                in: 'path',
+                required: true,
+                schema: new OA\Schema(type: 'integer'),
+            ),
+            new OA\Parameter(
+                name: 'roleItem',
+                description: 'Role item to assign',
+                in: 'path',
+                required: true,
+                schema: new OA\Schema(type: 'integer'),
+            )
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'User role updated successfully',
+                content: new OA\JsonContent(ref: new Model(type: User::class, groups: ['user.index']))
+            ),
+            new OA\Response(
+                response: 404,
+                description: 'User not found or role not found'
+            )
+        ]
+    )]
+    public function adminUpdateRole(EntityManagerInterface $entityManager, int $adminId, int $roleItem): JsonResponse
+    {
+        $user = $entityManager->getRepository(User::class)->find($adminId);
+        if (!$user) {
+            return new JsonResponse("user not found", Response::HTTP_NOT_FOUND);
+        }
+        switch ($roleItem) {
+            case 0:
+                $user->setRoles(["ROLE_USER"]);
+                break;
+            case 1:
+                $user->setRoles(["ROLE_EDIT"]);
+                break;
+            case 2:
+                $user->setRoles(["ROLE_GRANT_EDIT", "ROLE_EDIT"]);
+                break;
+            case 3:
+                $user->setRoles(["ROLE_ADMIN", "ROLE_GRANT_EDIT", "ROLE_EDIT"]);
+                break;
+            case 4:
+                $user->setRoles(["ROLE_SUPER_ADMIN","ROLE_ADMIN", "ROLE_GRANT_EDIT", "ROLE_EDIT"]);
+                break;
+
+            default:
+                return new JsonResponse("role not found", Response::HTTP_NOT_FOUND);
+        }
+        $entityManager->flush();
+        return $this->json($user, Response::HTTP_OK, [], ['groups' => 'user.index']);
+    }
 
     /*
-     *  Delete a user
+     *  Delete a user not admin
      * */
     #[IsGranted("ROLE_ADMIN")]
-    #[Route('/api/user/{id}', methods: ['DELETE'])]
+    #[Route('/api/user/{id}/delete', methods: ['DELETE'])]
     #[OA\Delete(
-        path: '/api/user/{id}',
+        path: '/api/user/{id}/delete',
         description: 'Delete a user by its Id.',
         summary: 'Delete a user',
         parameters: [
@@ -303,11 +423,53 @@ class UserController extends AbstractController
         if (!$user) {
             return new JsonResponse("user not found", Response::HTTP_NOT_FOUND);
         }
-        if (in_array('ROLE_ADMIN', $user->getRoles())) {
+        if (in_array('ROLE_ADMIN', $user->getRoles())&&(!in_array('ROLE_SUPER_ADMIN',$user->getRoles()))) {
             return new JsonResponse("admin can't delete another admin", Response::HTTP_FORBIDDEN);
         }
         $entityManager->remove($user);
         $entityManager->flush();
         return new JsonResponse(null, Response::HTTP_NO_CONTENT);
     }
+    /*
+ *  Delete a user or admin
+ * */
+    #[IsGranted("ROLE_SUPER_ADMIN")]
+    #[Route('/api/admin/{id}/delete', methods: ['DELETE'])]
+    #[OA\Delete(
+        path: '/api/admin/{id}/delete',
+        description: 'Delete a user or admin by its Id.',
+        summary: 'Delete a user or admin',
+        parameters: [
+            new OA\Parameter(
+                name: 'id',
+                description: 'Id of the user to delete',
+                in: 'path',
+                required: true,
+                schema: new OA\Schema(type: 'integer'),
+            )
+        ],
+        responses: [
+            new OA\Response(
+                response: 204,
+                description: 'User successfully deleted'
+            ),
+            new OA\Response(
+                response: 404,
+                description: 'User not found'
+            ),
+
+        ]
+    )]
+    public function adminDelete(int $id, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $user = $entityManager->getRepository(User::class)->find($id);
+        if (!$user) {
+            return new JsonResponse("user not found", Response::HTTP_NOT_FOUND);
+        }
+        $entityManager->remove($user);
+        $entityManager->flush();
+        return new JsonResponse(null, Response::HTTP_NO_CONTENT);
+    }
+
+
 }

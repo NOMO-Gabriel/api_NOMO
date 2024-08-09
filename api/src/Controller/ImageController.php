@@ -23,7 +23,6 @@ class ImageController extends AbstractController
     /*
      *  List all images
      * */
-    #[IsGranted("ROLE_USER")]
     #[Route('/api/images', methods: ['GET'])]
     #[OA\Get(
         path: '/api/images',
@@ -58,7 +57,6 @@ class ImageController extends AbstractController
     /*
      *  Present an image by id
      * */
-    #[IsGranted("ROLE_USER")]
     #[Route('/api/image/{id}' , methods: ['GET'])]
     #[OA\Get(
         path: '/api/image/{id}',
