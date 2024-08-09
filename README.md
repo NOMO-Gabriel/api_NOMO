@@ -3,13 +3,14 @@
 A simple API to provide data for products for a single store.
 
 ## Project Status
-
-The development of the API for managing products (`API_NOMO`) is ongoing. Please start by reading this `README` for an overview of the project and its objectives. For a detailed list of development steps and associated commits, refer to the [Development Steps](/about/3-DevelopmentGuide/Readme.md). This guide provides a comprehensive outline of the development process, including feature implementation and testing.
+The development of the API for managing products (`API_NOMO`) is finished.
+Please start by reading this `README` for an overview of the project and its objectives. For a detailed list of development steps and associated commits, refer to the [Development Steps](/about/2-DevelopmentGuide/Readme.md). This guide provides a comprehensive outline of the development process, including feature implementation and testing.
+To have more information about modeling of the project, see my [modeling](/about/1-Modeling/modeling.md)
 
 
 ## Overview
 
-`api_NOMO` is a RESTful API built with Symfony that allows for managing products in a single store. It supports operations for handling products, categories, users, and images. 
+`api_NOMO` is a REST API built with Symfony that allows for managing products in a single store. It supports operations for handling products, categories, users, and images. 
 
 ## Features
 
@@ -38,7 +39,7 @@ The development of the API for managing products (`API_NOMO`) is ongoing. Please
 - PHP 8.1 or higher
 - Composer
 - Symfony CLI
-- MySQL or PostgreSQL
+- MySQL, PostgresSQL or another Database Management System (DBMS)
 
 ### Steps
 
@@ -52,8 +53,6 @@ The development of the API for managing products (`API_NOMO`) is ongoing. Please
      ```bash
      https://gitlab.com/nomo-gabriel-team/api_nomo.git
     ```
-   
-
 2. **Navigate to the project directory:**
 
     ```bash
@@ -69,11 +68,15 @@ The development of the API for managing products (`API_NOMO`) is ongoing. Please
 
 4. **Configure your environment:**
 
-Rename `.env.example` to `.env` and update the database credentials and other configuration settings. Make sure that your database is properly configured. By default, PostgreSQL is configured. Comment out this line:
+Update`.env` file and put  the database credentials and other configuration settings. Make sure that your database is properly configured. By default, PostgresSQL is configured.My configuration is default configuration to use Maria db with phpMyAdmin. Comment out this line:
 
       ```dotenv
       # DATABASE_URL="postgresql://app:!ChangeMe!@127.0.0.1:5432/app?serverVersion=16&charset=utf8"
+and
 
+    ````dotenv
+    # 
+    DATABASE_URL="mysql://root:@127.0.0.1:3306/api_product?serverVersion=10.4.28-MariaDB&charset=utf8mb4"
   
 and uncomment the line related to your database. Configure the password, username, and database name, and make sure you specify the correct version of your database server. For example:
 
@@ -101,7 +104,7 @@ Here is an example configuration:
     ```bash
     php bin/console doctrine:migrations:migrate
     ```
-7. fiell database with fixtures:
+7. fill database with fixtures:
 
         php bin/console doctrine:fixtures:load 
 this command will delete all data in database and generate new data.
@@ -109,7 +112,6 @@ this command will delete all data in database and generate new data.
 If you need only to add data, make:
 
         php bin/console doctrine:fixtures:load --append
-
 
 8. **Start the Symfony server:**
 
@@ -120,39 +122,9 @@ If you need only to add data, make:
     ```bash
    php -S localhost:8000 -t public
     ```
-
-## API Endpoints
-
-### Products
-
-- `GET /products` : List all products
-- `GET /product/{id}` : View a single product
-- `GET /products/category/{categoryId}` : List products by category
-- `POST /product` : Create a new product
-- `PATCH /product/{id}` : Update a product
-- `DELETE /product/{id}` : Delete a product
-
-### Categories
-
-- `GET /categories` : List all categories
-- `GET /category/{id}` : View a single category
-- `POST /category` : Create a new category
-- `PATCH /category/{id}` : Update a category
-- `DELETE /category/{id}` : Delete a category
-
-### Users
-
-- `GET /users` : List all users
-- `GET /user/{id}` : View a single user
-- `POST /register` : Register a new user
-- `POST /login` : Authenticate a user
-- `PATCH /user/{id}` : Update user information
-- `PATCH /roles/{userId}/role-{roleItem}` : Update user roles
-- `DELETE /user/{id}` : Delete a user
-
 ## Authentication
 
-The API uses JWT (JSON Web Tokens) for authentication. To access protected routes, include the `Authorization` header with the token in your requests.
+The API uses JWT (JSON Web Tokens) for authentication. To access protected routes, include the `Authorization Bearer` header with the token in your requests.
 
 ## Modeling
 The API modeling is available at [modeling](/about/1-Modeling/modeling.md).
@@ -161,6 +133,7 @@ The API modeling is available at [modeling](/about/1-Modeling/modeling.md).
 ## Documentation
 
 The API documentation is available at [DOCUMENTATION](/about/DOCUMENTATION/Readme.md).
+
 
 ## Contributing
 

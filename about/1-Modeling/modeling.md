@@ -68,20 +68,23 @@
 ## 3. Access Management
 
 ### Roles
-- **ROLE_USER**: Product read access
-- **ROLE_EDITOR**: Product read and modification access
-- **ROLE_ADMIN**: Product and category read and modification access
+- **ROLE_USER**: Product and category read access
+- **ROLE_EDIT** : Product read and modification access
+- - **ROLE_GRANT_EDIT** : Product and category read and modification access
+- **ROLE_ADMIN**: Product and category read and modification access and user Management  access limited to roles  ROLE_USER ,ROLE_EDIT and ROLE_GRANT_EDIT
+- - **SUPER_ADMIN**: Product and category read and modification access and user Management  access(all user and admin)
 
 ### Controllers and Routes
 - **ProductController**: CRUD operations for products, filtering by category
 - **CategoryController**: CRUD operations for categories
 - **UserController**: User management (registration, login, profile modification)
+- **ImageController**: CRUD operations for images  
 
 ## 4. Authentication System
 
 ### User Management
 - Registration (creating a new user)
-- Login (authentication via email and password)
+- Login (authentication via username and password)
 - Password management (hashing and validation)
 - Modification of user access roles
 
@@ -93,36 +96,10 @@
 
 ### Swagger
 You can find our API documentation in the directory: [DOCUMENTATION](/ABOUT_PROJECT/DOCUMENTATION/) to facilitate testing and understanding of available endpoints.
+or on the EndPoint /api/doc after executing Project. For more information to execute project, see [The Readme](/README.md)
 
-### Example Endpoints
+### API END-POINTS
+for see the API END-POINTS, see the [documentation](/about/DOCUMENTATION/Readme.md) 
 
-   ## Products
-- `GET /products` : View all products
-- `GET /product/{id}` : View a single product
-- `GET /products/category/{categoryId}` : View products filtered by a specific category
-- `POST /product` : Create a new product
-- `PUT /product/{id}` : Update a product
-- `DELETE /product/{id}` : Delete a product
-
-## Categories
-- `GET /categories` : View all categories
-- `GET /category/{id}` : View a single category
-- `POST /category` : Create a category
-- `PUT /category/{id}` : Update a category
-- `DELETE /category/{id}` : Delete a category
-
-## Users
-- `GET /users` : View all users
-- `GET /user/{id}` : View a single user
-- `POST /register` : Register a new user
-- `POST /login` : Authenticate a user
-- `PUT /editUser/{id}` : Update user information
-- `PUT /editRole/{id}` : Update user roles
-- `DELETE /user/{id}` : Delete a user
-
-## Images
-- `GET /images` : view all images
-- `GET /image/{id}`: view a specific image
-- `PUT /image/{id}`: update an image url for a products
-- `POST /image/product/{productId}`: add an image for a specific product
-- `DELETE /image/{productId}` : delete an image for  product
+## 6. DEVELOPMENT
+for more information about the development of this project, see [the development Guide steps](/about/2-DevelopmentGuide/Readme.md)

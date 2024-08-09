@@ -92,5 +92,5 @@ class CategoryController extends AbstractController
         $entityManager->flush();
         return new JsonResponse(null,Response::HTTP_NO_CONTENT);
     }
-    
+
     }
