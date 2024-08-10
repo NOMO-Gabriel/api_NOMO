@@ -22,6 +22,15 @@ use Nelmio\ApiDocBundle\Annotation\Model;
 #[OA\Tag(name:"Users", description: "Routes about Users")]
 class UserController extends AbstractController
 {
+
+    /*
+     * Home page Redirection
+     * */
+    #[Route('/')]
+    public function home():Response
+    {
+        return $this->redirect('api/doc');
+    }
     /*
      *  Register a new user
      * */
