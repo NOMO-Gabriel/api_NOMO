@@ -10,7 +10,7 @@
 
 ### Documentation
 
-- `DET api/doc ` : Get the documentation of the api and have all information  about any end-point. 
+- `GET api/doc ` : Get the documentation of the api and have all information  about any end-point. 
 
 ### Products
 
