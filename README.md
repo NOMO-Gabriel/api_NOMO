@@ -1,9 +1,10 @@
-`````# API_NOMO
+# API_NOMO
 
 A simple API to provide data for products for a single store.
 
 ## Table of contents
 - [Table Of Contents](#table-of-contents)
+- [Some important link about project](#some-important-links-about-project)
 - [Project Status](#project-status)
 - [Overview](#overview)
 - [Features](#features)
@@ -16,6 +17,16 @@ A simple API to provide data for products for a single store.
 - [Contributing](#contributing)
 - [License](#license)
 - [Contact](#contact)
+
+## Some Important Links about Project
+- [Project Overview](README.md)
+- [Guidelines](/about/0-Guideline/guideline.md)
+- [Modeling](/about/1-Modeling/modeling.md)
+- [Development Guide](/about/2-DevelopmentGuide/Readme.md)
+- [Documentation of API](/about/DOCUMENTATION/Readme.md)
+
+
+
 
 
 
@@ -168,4 +179,3 @@ This project is licensed under the MIT License - see the [LICENSE](/License.txt)
 ## Contact
 
 For any questions or support, please contact [me](mailto:gabriel.nomo@facsciences-uy1.cm).
-`````
