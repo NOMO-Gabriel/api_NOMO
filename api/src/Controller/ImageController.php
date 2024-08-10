@@ -27,7 +27,7 @@ class ImageController extends AbstractController
     #[OA\Get(
         path: '/api/images',
         description: 'Retrieve a list of all images in the system.',
-        summary: 'List all images',
+        summary: 'List all images | PUBLIC ACCESS',
         responses: [
             new OA\Response(
                 response: 200,
@@ -61,7 +61,7 @@ class ImageController extends AbstractController
     #[OA\Get(
         path: '/api/image/{id}',
         description: 'Retrieve an image by its Id.',
-        summary: 'Get an image by Id',
+        summary: 'Get an image by Id | PUBLIC ACCESS',
         parameters: [
             new OA\Parameter(
                 name: 'id',
@@ -102,7 +102,7 @@ class ImageController extends AbstractController
     #[OA\Post(
         path: '/api/image/product/{productId}/create',
         description: 'Create a new image associated with a product.',
-        summary: 'Create an image',
+        summary: 'Create an image  | ROLE_EDIT ACCESS',
         requestBody: new OA\RequestBody(
             description: 'Image data to create',
             content: new OA\JsonContent(ref: new Model(type: Image::class, groups: ['image.create']))
@@ -154,7 +154,7 @@ class ImageController extends AbstractController
     #[OA\Patch(
         path: '/api/image/{id}/update',
         description: 'Update an existing image.',
-        summary: 'Update an image',
+        summary: 'Update an image | ROLE_EDIT ACCESS',
         requestBody: new OA\RequestBody(
             description: 'Updated image data',
             content: new OA\JsonContent(ref: new Model(type: Image::class, groups: ['image.create']))
@@ -213,7 +213,7 @@ class ImageController extends AbstractController
     #[OA\Delete(
         path: '/api/image/{id}/delete',
         description: 'Delete an image by its Id.',
-        summary: 'Delete an image',
+        summary: 'Delete an image | ROLE_EDIT ACCESS',
         parameters: [
             new OA\Parameter(
                 name: 'id',

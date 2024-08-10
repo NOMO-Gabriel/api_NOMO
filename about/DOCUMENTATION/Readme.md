@@ -1,10 +1,16 @@
 # Documentation
+### Illustrations
+![landingPage](/about/DOCUMENTATION/images/img1.png)
+![landingPage](/about/DOCUMENTATION/images/img2.png)
+![landingPage](/about/DOCUMENTATION/images/img3.png)
+![landingPage](/about/DOCUMENTATION/images/img4.png)
+![landingPage](/about/DOCUMENTATION/images/img5.png)
 
 ## API Endpoints
 
 ### Documentation
 
-- `DET api/doc ` : Get the documentation of the api
+- `DET api/doc ` : Get the documentation of the api and have all information  about any end-point. 
 
 ### Products
 

@@ -26,7 +26,7 @@ class CategoryController extends AbstractController
     #[OA\Get(
         path: '/api/categories',
         description: 'Retrieve a list of all categories in the system.',
-        summary: 'List all categories',
+        summary: 'List all categories | PUBLIC ACCESS',
         responses: [
             new OA\Response(
                 response: 200,
@@ -61,7 +61,7 @@ class CategoryController extends AbstractController
     #[OA\Get(
         path: '/api/category/{id}',
         description: 'Retrieve a category by its ID.',
-        summary: 'Get a category by ID',
+        summary: 'Get a category by ID | PUBLIC ACCESS',
         parameters: [
             new OA\Parameter(
                 name: 'id',
@@ -102,7 +102,7 @@ class CategoryController extends AbstractController
     #[OA\Post(
         path: '/api/category/create',
         description: 'Create a new category.',
-        summary: 'Create a new category',
+        summary: 'Create a new category | ROLE_GRANT_EDIT ACCESS',
         requestBody: new OA\RequestBody(
             content: new OA\JsonContent(ref: new Model(type: Category::class, groups: ['category.create']))
         ),
@@ -141,7 +141,7 @@ class CategoryController extends AbstractController
     #[OA\Patch(
         path: '/api/category/{id}/update',
         description: 'Update an existing category.',
-        summary: 'Update a category',
+        summary: 'Update a category  | ROLE_GRANT_EDIT ACCESS',
         requestBody: new OA\RequestBody(
             content: new OA\JsonContent(ref: new Model(type: Category::class, groups: ['category.create']))
         ),
@@ -195,7 +195,7 @@ class CategoryController extends AbstractController
     #[OA\Delete(
         path: '/api/category/{id}/delete',
         description: 'Delete a category by its ID.',
-        summary: 'Delete a category',
+        summary: 'Delete a category  | ROLE_GRANT_EDIT ACCESS',
         parameters: [
             new OA\Parameter(
                 name: 'id',

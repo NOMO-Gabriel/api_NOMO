@@ -30,7 +30,7 @@ class ProductController extends AbstractController
     #[OA\Get(
         path: '/api/products',
         description: 'Retrieve a list of all products.',
-        summary: 'List all products',
+        summary: 'List all products | PUBLIC ACCESS',
         responses: [
             new OA\Response(
                 response: 200,
@@ -60,7 +60,7 @@ class ProductController extends AbstractController
     #[OA\Get(
         path: '/api/product/{id}',
         description: 'Retrieve a product by its ID.',
-        summary: 'Show a product by its ID',
+        summary: 'Show a product by its ID | PUBLIC ACCESS',
         parameters: [
             new OA\Parameter(
                 name: 'id',
@@ -102,7 +102,7 @@ class ProductController extends AbstractController
     #[OA\Get(
         path: '/api/products/category/{categoryId}',
         description: 'Retrieve all products for a specific category.',
-        summary: 'List products by category',
+        summary: 'List products by category | PUBLIC ACCESS',
         parameters: [
             new OA\Parameter(
                 name: 'categoryId',
@@ -150,7 +150,7 @@ class ProductController extends AbstractController
     #[OA\Post(
         path: '/api/product/create',
         description: 'Create a new product with the given data.',
-        summary: 'Create a new product',
+        summary: 'Create a new product | ROLE_EDIT ACCESS',
         requestBody: new OA\RequestBody(
             content: new OA\JsonContent(
                 ref: new Model(type: Product::class, groups: ['product.create'])
@@ -221,7 +221,7 @@ class ProductController extends AbstractController
     #[OA\Patch(
         path: '/api/product/{id}/update',
         description: 'Update the product with the given ID using the provided data.',
-        summary: 'Update an existing product',
+        summary: 'Update an existing product | ROLE_EDIT ACCESS',
         requestBody: new OA\RequestBody(
             content: new OA\JsonContent(
                 ref: new Model(type: Product::class, groups: ['product.create'])
@@ -305,7 +305,7 @@ class ProductController extends AbstractController
     #[OA\Delete(
         path: '/api/product/{id}/delete',
         description: 'Delete the product with the given ID.',
-        summary: 'Delete a product by its ID',
+        summary: 'Delete a product by its ID | ROLE_EDIT ACCESS',
         parameters: [
             new OA\Parameter(
                 name: 'id',

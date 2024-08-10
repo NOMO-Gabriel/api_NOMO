@@ -29,7 +29,7 @@ class UserController extends AbstractController
     #[OA\Post(
         path: '/api/register',
         description: 'Register a new user. ',
-        summary: 'Register a user',
+        summary: 'Register a user | PUBLIC ACCESS',
         requestBody: new OA\RequestBody(
             description: 'User registration data',
             required: true,
@@ -97,7 +97,7 @@ class UserController extends AbstractController
     #[OA\Get(
         path: '/api/users',
         description: 'Retrieve a list of all users.',
-        summary: 'List all users',
+        summary: 'List all users | ROLE_ADMIN ACCESS',
         responses: [
             new OA\Response(
                 response: 200,
@@ -124,12 +124,12 @@ class UserController extends AbstractController
     /*
      *  Present a user by id
      * */
-    #[IsGranted("ROLE_ADMIN")]
+    #[IsGranted("ROLE_EDIT")]
     #[Route('/api/user/{id}', methods: ['GET'])]
     #[OA\Get(
         path: '/api/user/{id}',
         description: 'Retrieve a user by its Id.',
-        summary: 'Get a user by Id',
+        summary: 'Get a user by Id | ROLE_EDIT ACCESS',
         parameters: [
             new OA\Parameter(
                 name: 'id',
@@ -167,7 +167,7 @@ class UserController extends AbstractController
     #[OA\Patch(
         path: '/api/user/{id}/update',
         description: 'Update an existing user limited by role ADMIN.',
-        summary: 'Update a simple user ',
+        summary: 'Update a simple user | ROLE_ADMIN ACCESS ',
         requestBody: new OA\RequestBody(
             description: 'Updated user data',
             content: new OA\JsonContent(ref: new Model(type: User::class, groups: ['user.update']))
@@ -227,7 +227,7 @@ class UserController extends AbstractController
     #[OA\Patch(
         path: '/api/admin/{id}/update',
         description: 'Update an existing user.',
-        summary: 'Update a user or admin',
+        summary: 'Update a user or admin | ROLE_SUPER_ADMIN ACCESS',
         requestBody: new OA\RequestBody(
             description: 'Updated user data',
             content: new OA\JsonContent(ref: new Model(type: User::class, groups: ['user.update']))
@@ -282,7 +282,7 @@ class UserController extends AbstractController
     #[OA\Patch(
         path: '/api/setRole/user-{userId}/role-{roleItem}/update',
         description: 'Update a simple user role.',
-        summary: 'Update simple user role',
+        summary: 'Update simple user role | ROLE_ADMIN ACCESS',
         parameters: [
             new OA\Parameter(
                 name: 'userId',
@@ -351,7 +351,7 @@ class UserController extends AbstractController
     #[OA\Patch(
         path: '/api/setRole/admin-{adminId}/role-{roleItem}/update',
         description: 'Update a  user or an admin role.',
-        summary: 'Update a user or an admin role',
+        summary: 'Update a user or an admin role | ROLE_SUPER_ADMIN ACCESS',
         parameters: [
             new OA\Parameter(
                 name: 'adminId',
@@ -418,7 +418,7 @@ class UserController extends AbstractController
     #[OA\Delete(
         path: '/api/user/{id}/delete',
         description: 'Delete a user by its Id.',
-        summary: 'Delete a user',
+        summary: 'Delete a user | ROLE_ADMIN ACCESS',
         parameters: [
             new OA\Parameter(
                 name: 'id',
@@ -464,7 +464,7 @@ class UserController extends AbstractController
     #[OA\Delete(
         path: '/api/admin/{id}/delete',
         description: 'Delete a user or admin by its Id.',
-        summary: 'Delete a user or admin',
+        summary: 'Delete a user or admin | ROLE_SUPER_ADMIN ACCESS',
         parameters: [
             new OA\Parameter(
                 name: 'id',

@@ -11,7 +11,8 @@ To have more information about modeling of the project, see my [modeling](/about
 ## Overview
 
 `api_NOMO` is a REST API built with Symfony that allows for managing products in a single store. It supports operations for handling products, categories, users, and images. 
-
+here you can see a landing page of documentation: 
+![landingPage](/about/DOCUMENTATION/images/img1.png)
 ## Features
 
 - **Product Management**
@@ -83,7 +84,7 @@ and uncomment the line related to your database. Configure the password, usernam
 - Database: MariaDB
 - Name: myDatabaseName
 - Username: me
-- Password: mypassword
+- Password: myPassword
 - Server version: 10.4.28
 
 Here is an example configuration:
