@@ -34,7 +34,7 @@ class ImageController extends AbstractController
                 description: 'List of images',
                 content: new OA\JsonContent(
                     type: 'array',
-                    items: new OA\Items(ref: new Model(type: Image::class, groups: ['image.index']))
+                    items: new OA\Items(ref: new Model(type: Image::class, groups: ['image.show']))
                 )
             ),
             new OA\Response(
@@ -50,7 +50,7 @@ class ImageController extends AbstractController
             return new JsonResponse("images not found in database",Response::HTTP_NOT_FOUND);
         }
         return $this->json($images,Response::HTTP_OK,[],[
-            'groups' => ['image.index']
+            'groups' => ['image.show']
         ]);
     }
 

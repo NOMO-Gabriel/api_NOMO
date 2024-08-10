@@ -15,6 +15,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 use OpenApi\Attributes as OA;
+
 #[OA\Tag(name:"Categories", description: "Routes about Categories")]
 class CategoryController extends AbstractController
 {
@@ -32,7 +33,7 @@ class CategoryController extends AbstractController
                 description: 'List of categories',
                 content: new OA\JsonContent(
                     type: 'array',
-                    items: new OA\Items(ref: new Model(type: Category::class, groups: ['category.index']))
+                    items: new OA\Items(ref: new Model(type: Category::class, groups: ['category.show']))
                 )
             ),
             new OA\Response(
@@ -48,9 +49,10 @@ class CategoryController extends AbstractController
             return new JsonResponse("No categories found", Response::HTTP_NOT_FOUND);
         }
         return $this->json($categories, Response::HTTP_OK, [], [
-            'groups' => ['category.index']
+            'groups' => ['category.show']
         ]);
     }
+
 
     /*
      *  Present a category by id

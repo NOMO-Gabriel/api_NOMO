@@ -39,12 +39,18 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
           - { path: ^/api/login, roles: PUBLIC_ACCESS }
           -  { path: ^/api/register, roles: PUBLIC_ACCESS }
           - { path: ^/api/doc, roles: PUBLIC_ACCESS }
+          - {path: ^/api/categories,  roles: PUBLIC_ACCESS}
+          - {path: ^/api/category/[^/]+,  roles: PUBLIC_ACCESS}
+          - { path: ^/api/images,  roles: PUBLIC_ACCESS }
+          - { path: ^/api/image/[^/]+,  roles: PUBLIC_ACCESS }
+          - {path: ^/api/products,  roles: PUBLIC_ACCESS}
+          - {path: ^/api/product/[^/]+,  roles: PUBLIC_ACCESS}
+          - {path: ^/api/products/category/[^/]+,  roles: PUBLIC_ACCESS}
           - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
+
 
 when@test:
     security:

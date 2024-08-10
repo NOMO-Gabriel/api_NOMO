@@ -10,25 +10,25 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 
-#[Groups(['product.index','product.show'])]
+#[Groups(['product.show'])]
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['product.category','product.create','image.create'])]
+    #[Groups(['product.category','product.create','image.create','image.show'])]
     private ?int $id = null;
 
-    #[Groups(['product.category','product.create','image.create'])]
+    #[Groups(['product.category','product.create','image.create','image.show'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
 
-    #[Groups(['product.create','product.category'])]
+    #[Groups(['product.create','product.category','image.show'])]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
-    #[Groups(['product.category','product.create'])]
+    #[Groups(['product.category','product.create','image.show'])]
     #[ORM\Column]
     private ?float $price = null;
 
@@ -37,12 +37,12 @@ class Product
     private ?int $quantity = null;
 
     #[ORM\Column]
-    #[Groups(['product.category','product.create','product.category'])]
+    #[Groups(['product.category','product.create','product.category','image.show'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'products')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['product.create'])]
+    #[Groups(['product.create','image.show'])]
     private ?Category $category = null;
 
     /**

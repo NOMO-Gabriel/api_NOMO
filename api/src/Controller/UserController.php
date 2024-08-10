@@ -28,13 +28,39 @@ class UserController extends AbstractController
     #[Route('/api/register', methods: ['POST'])]
     #[OA\Post(
         path: '/api/register',
-        description: 'Register a new user.',
+        description: 'Register a new user. ',
         summary: 'Register a user',
         requestBody: new OA\RequestBody(
             description: 'User registration data',
-            content: new OA\JsonContent(ref: new Model(type: User::class, groups: ['user.index']))
-        ),
-        responses: [
+            required: true,
+            content: new OA\MediaType(
+                mediaType: 'application/json',
+                schema: new OA\Schema(
+                    required: ['username', 'email', 'password'],
+                    properties: [
+                        new OA\Property(
+                            property: 'username',
+                            description: 'The username used to login',
+                            type: 'string',
+                            example: 'gabriel'
+                        ),
+                        new OA\Property(
+                            property: 'email',
+                            description: 'The email used to login',
+                            type: 'string',
+                            example: 'gabriel@example.com'
+                        ),
+                        new OA\Property(
+                            property: 'password',
+                            description: 'The password used to login',
+                            type: 'string',
+                            example: 'gabriel'
+                        )
+                    ],
+                    type: 'object'
+                )
+            )
+        ), responses: [
             new OA\Response(
                 response: 201,
                 description: 'User successfully registered',
@@ -355,7 +381,7 @@ class UserController extends AbstractController
         ]
     )]
     public function adminUpdateRole(EntityManagerInterface $entityManager, int $adminId, int $roleItem): JsonResponse
-    {
+    {-
         $user = $entityManager->getRepository(User::class)->find($adminId);
         if (!$user) {
             return new JsonResponse("user not found", Response::HTTP_NOT_FOUND);

@@ -37,7 +37,7 @@ class ProductController extends AbstractController
                 description: 'Successful response',
                 content: new OA\JsonContent(
                     type: 'array',
-                    items: new OA\Items(ref: new Model(type: Product::class, groups: ['product.index']))
+                    items: new OA\Items(ref: new Model(type: Product::class, groups: ['product.show']))
                 )
             )
         ]
@@ -49,7 +49,7 @@ class ProductController extends AbstractController
             return new JsonResponse('Product not found in database', Response::HTTP_NOT_FOUND);
         }
         return $this->json($products, Response::HTTP_OK, [], [
-            'groups' => ['product.index']
+            'groups' => ['product.show']
         ]);
     }
 

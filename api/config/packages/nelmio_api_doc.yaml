@@ -8,6 +8,44 @@ nelmio_api_doc:
             description: Product Management for a single store!
             version: 1.0.0
             x-build: #CommitHash
+        paths:
+            '/api/login_check':
+                post:
+                    summary: 'User Login'
+                    description: 'Authenticate a user and return a JWT token.'
+                    requestBody:
+                        description: 'User credentials for authentication'
+                        content:
+                            application/json:
+                                schema:
+                                    type: 'object'
+                                    properties:
+                                        username:
+                                            type: 'string'
+                                            example: 'john_doe'
+                                        password:
+                                            type: 'string'
+                                            example: 'myPassword'
+                                    required:
+                                        - username
+                                        - password
+                    responses:
+                        '200':
+                            description: 'JWT token successfully returned'
+                            content:
+                                application/json:
+                                    schema:
+                                        type: 'object'
+                                        properties:
+                                            token:
+                                                type: 'string'
+                                                example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
+                        '401':
+                            description: 'Unauthorized, invalid credentials'
+                        '400':
+                            description: 'Bad request, invalid input'
+
+
         components:
             securitySchemes:
                 Bearer:

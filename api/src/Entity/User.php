@@ -18,9 +18,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['image.create'])]
     private ?int $id = null;
 
-    #[Groups(['user.update'])]
+    #[Groups(['user.update','image.create'])]
     #[ORM\Column(length: 180)]
     private ?string $username = null;
 
