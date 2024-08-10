@@ -1,6 +1,23 @@
-# API_NOMO
+`````# API_NOMO
 
 A simple API to provide data for products for a single store.
+
+## Table of contents
+- [Table Of Contents](#table-of-contents)
+- [Project Status](#project-status)
+- [Overview](#overview)
+- [Features](#features)
+- [Installation](#installation)
+  - [Prerequisites](#prerequisites)
+  - [Steps](#steps)
+- [Authentication](#authentication)
+- [Modeling](#modeling)
+- [Documentation](#documentation)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
+
+
 
 ## Project Status
 The development of the API for managing products (`API_NOMO`) is finished.
@@ -151,3 +168,4 @@ This project is licensed under the MIT License - see the [LICENSE](/License.txt)
 ## Contact
 
 For any questions or support, please contact [me](mailto:gabriel.nomo@facsciences-uy1.cm).
+`````
